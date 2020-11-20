@@ -1,65 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Compiled and minified CSS -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    /> -->
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head>
-<body>
-    <div class="content">
-        <div class="padding">
-            <p style="color:white;">HELLO</p>
-        </div>
-    
-        <div id="anim_img_box">
-            <img id="anim_img" src="anim/1/1_00000.jpg" style="width: 100%;"/> <!--初期画像を入れておくよ。置き換わる部分だよ-->
-        </div>
-    
-        <div id="anim_img_padding" class="padding">
-            このエリアは画像を動かすためにスクロールされますが、重なっているので見えません。<br>
-            このサイズはJavaScriptで変わります。
-        </div>
-        <div class="padding">
-            <p style="color:white">Let's start.</p>
-        </div>
+    <style>
+      img {
+        width: 200px;
+        position: fixed;
+      }
+      body {
+        height: 5500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Flip Book</h1>
+      <p>
+        Mochi jumps with your scroll.
+      </p>
+
+      <div id="root"></div>
     </div>
-</body>
+
+    <script>
+      let countUp = 0;
+      let y = 0;
+
+      const img = document.createElement('img');
+      img.setAttribute('alt', 'motchi');
+      window.addEventListener('scroll', function () {
+        y = window.pageYOffset;
+        countUp = Math.round(y / 100) % 12;
+
+        document.getElementById('root').appendChild(img);
+        img.setAttribute('src', `./anim/1/1_${( '00000' + countUp ).slice( -5 )}.jpg`);
+      });
+    </script>
+  </body>
 </html>
-<script>
-    var tmp = {};
-    loadImageToTmp();
-    function loadImageToTmp(){
-        for(var i=1;i<=140;i++){
-            const _i = i;
-            const img = new Image();
-            tmp[_i] = null;
-            img.src = `anim/1/1_${( '00000' + _i ).slice( -5 )}.jpg`;
-            img.addEventListener("load",()=>{
-                tmp[_i] = img;
-            })
-        }
-    }
-
-    const image = document.getElementById("anim_img");
-
-    var SIZE = 140;
-
-    const offset = $("#anim_img_box").offset();
-    setInterval(() => {
-        const y = window.pageYOffset;
-        const dy = y - offset.top;
-        if(offset.top<y&&y<offset.top+SIZE*5){
-            $("#anim_img_box").css("top",0)
-            const i = Math.floor(dy / 5);
-            if(i<=0||i>=SIZE) return;
-            console.log(i)
-            if(tmp[i].src) image.src = tmp[i].src;
-        }else if(y>=offset.top+SIZE*5){
-            $("#anim_img_box").css("top","-"+(dy-SIZE*5))
-        }
-    }, 50);
-
-    $("#anim_img_padding").height(SIZE*5);
-</script>
