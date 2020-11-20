@@ -47,8 +47,8 @@
     var SIZE = 140;
 
     const offset = $("#anim_img_box").offset();
-    $(window).scroll(function() {
-        const y = $(window).scrollTop();
+    setInterval(() => {
+        const y = window.pageYOffset;
         const dy = y - offset.top;
         if(offset.top<y&&y<offset.top+SIZE*5){
             $("#anim_img_box").css("top",0)
@@ -58,7 +58,7 @@
         }else if(y>=offset.top+SIZE*5){
             $("#anim_img_box").css("top","-"+(dy-SIZE*5))
         }
-    }); 
+    }, 50);
 
     $("#anim_img_padding").height(SIZE*5);
 </script>
