@@ -54,6 +54,7 @@
             $("#anim_img_box").css("top",0)
             const i = Math.floor(dy / 5);
             if(i<=0||i>=SIZE) return;
+            console.log(i)
             if(tmp[i].src) image.src = tmp[i].src;
         }else if(y>=offset.top+SIZE*5){
             $("#anim_img_box").css("top","-"+(dy-SIZE*5))
